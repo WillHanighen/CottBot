@@ -5,10 +5,11 @@ An AI-powered Discord bot built with BunJS, Discord.js, TypeScript, and OpenRout
 ## Features
 
 ### AI Capabilities
+
 - **Multiple AI Models**: Choose from Kimi K2, Gemini 2.5 Flash, or GLM-4.7
 - **Customizable System Prompts**: Select from pre-made personalities (Femboy, Cat Girl, Furry) or create your own
 - **Conversation Context**: Maintains conversation history (last 15 messages) with reply chain prioritization
-- **Attachment Support**: 
+- **Attachment Support**:
   - Text files (`.txt`, `.md`, `.json`, `.csv`) are read and included
   - Images are processed (vision-capable models) or described via Gemini
   - Other attachments are processed through Gemini as an ingest layer
@@ -74,8 +75,9 @@ An AI-powered Discord bot built with BunJS, Discord.js, TypeScript, and OpenRout
 
 4. **Invite your bot to a server:**
 
-   Use this URL (replace `YOUR_CLIENT_ID` with your actual client ID): 
-   ```
+   Use this URL (replace `YOUR_CLIENT_ID` with your actual client ID):
+
+   ```none
    https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=0&scope=bot%20applications.commands
    ```
 
@@ -104,32 +106,39 @@ bun run start
 ### Interacting with the Bot
 
 The bot responds when:
+
 - You mention it directly (`@CottBot`)
 - You reply to a message the bot sent
 
 ### Setting Up Your Preferences
 
 1. **Choose a system prompt:**
-   ```
-   /system-prompt
-   ```
+
+```none
+/system-prompt
+   ``
+
    Select from: Femboy, Cat Girl, or Furry
 
 2. **Select an AI model:**
-   ```
-   /model
-   ```
+
+```none
+/model
+```
+
    Choose from: Kimi K2, Gemini 2.5 Flash, or GLM-4.7
 
 ### Admin Commands
 
 **Ban a user:**
-```
+
+```none
 /ban user:@username reason:Spam (optional)
 ```
 
 **Unban a user:**
-```
+
+```none
 /unban user:@username
 ```
 
@@ -138,28 +147,33 @@ The bot responds when:
 ### Examples
 
 - **Basic conversation:**
-  ```
+
+  ```none
   @CottBot Hello! How are you?
   ```
 
 - **With image:**
-  ```
+
+  ```none
   @CottBot What's in this image? [attach image]
   ```
 
 - **With text file:**
-  ```
+
+  ```none
   @CottBot Analyze this data [attach .txt file]
   ```
 
 - **In a reply thread:**
-  ```
+
+  ```none
   [Reply to bot message] Can you explain more?
   ```
 
 ## System Prompts
 
 System prompts are stored in the `prompts/` directory as Markdown files. You can:
+
 - Use the pre-made prompts (Femboy, Cat Girl, Furry)
 - Create custom prompts by adding new `.md` files
 - Update existing prompts to modify AI behavior
@@ -167,6 +181,7 @@ System prompts are stored in the `prompts/` directory as Markdown files. You can
 ## Database
 
 The bot uses SQLite to store:
+
 - User preferences (system prompt, model selection)
 - Banned users
 - Approved admins
@@ -182,6 +197,7 @@ Database files are stored in the `data/` directory (gitignored).
 ## Cost Tracking
 
 Each AI response includes an embed showing:
+
 - Model used
 - System prompt type
 - Input/output tokens
