@@ -452,18 +452,44 @@ client.on(Events.MessageCreate, async (message: Message) => {
         for (const toolCall of messageResponse.tool_calls) {
           const toolCallData = toolCall as any;
           const toolName = toolCallData.function?.name || '';
-          const toolArgs = JSON.parse(toolCallData.function?.arguments || '{}');
+          let toolArgs = {};
+          
+          // Parse tool arguments with error handling
+          try {
+            const argsString = toolCallData.function?.arguments || '{}';
+            toolArgs = JSON.parse(argsString);
+          } catch (error) {
+            console.error(`[GENERATION] Error parsing tool arguments for ${toolName}:`, error);
+            toolArgs = {};
+          }
           
           console.log(`[GENERATION] Executing tool: ${toolName} with args:`, toolArgs);
-          const toolResult = await executeTool(toolName, toolArgs);
-          console.log(`[GENERATION] Tool result: ${toolResult.substring(0, 100)}${toolResult.length > 100 ? '...' : ''}`);
           
-          // Add tool result to conversation
-          messages.push({
-            role: 'tool',
-            tool_call_id: toolCall.id,
-            content: toolResult,
-          } as any);
+          // Ensure tool_call_id exists
+          if (!toolCall.id) {
+            console.error(`[GENERATION] Tool call missing ID, skipping:`, toolCall);
+            continue;
+          }
+          
+          try {
+            const toolResult = await executeTool(toolName, toolArgs);
+            console.log(`[GENERATION] Tool result: ${toolResult.substring(0, 100)}${toolResult.length > 100 ? '...' : ''}`);
+            
+            // Add tool result to conversation
+            messages.push({
+              role: 'tool',
+              tool_call_id: toolCall.id,
+              content: toolResult,
+            } as any);
+          } catch (error) {
+            console.error(`[GENERATION] Error executing tool ${toolName}:`, error);
+            // Add error result to conversation so model knows tool failed
+            messages.push({
+              role: 'tool',
+              tool_call_id: toolCall.id,
+              content: `Error executing tool: ${error instanceof Error ? error.message : String(error)}`,
+            } as any);
+          }
         }
         
         // Continue the loop to get the model's response with tool results
