@@ -9,7 +9,7 @@
   },
   "keywords": ["discord", "bot", "bun", "typescript"],
   "author": "",
-  "license": "MIT",
+  "license": "CC-BY-4.0",
   "dependencies": {
     "discord.js": "^14.14.1",
     "openai": "^6.15.0"
